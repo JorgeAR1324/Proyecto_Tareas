@@ -1,21 +1,23 @@
 #Dependencias
 node_modules/
 
-uploads
+package-lock.json
 
-dist
-build
+uploads/
 
-.cache
+dist/
+build/
+
+.cache/
 
 #Logs
-logs
-.log
+logs/
+*.log
 
 npm-debu.log*
 yrn-debug.log*
 yarn-error.log*
-pnpm-debug,log*
+pnpm-debug.log*
 
 #Temporales
 tmp/
