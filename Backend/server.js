@@ -31,17 +31,16 @@ const server = http.createServer(async(req, res) => {
 //ENRUTADOR NATIVO CON CONSULTAS SQL REALES
 
 //RUTA 1: obtener tareas (GET /tasks)
-if (req.url === '/tasks' && req,method === 'GET') {
+if (req.url === '/tasks' && req.method === 'GET') {
     try{
         //Ejecutamos una consulta SQL directa usando interpolacion controlada del driver
         const[rows] = await pool.query('SELECT * FROM tasks');
 
         res.writeHead(200,{'content-Type': 'applcation/json'});
         res.end(JSON.stringify({
-            status: 'sucess',
+            status: 'success',
             data: { tasks: rows}
         }));
-        
     } catch (error) {
         res.writeHead(500, {'content-type': 'application/json'});
         res.end(JSON.stringify({ status: 'error', message: 'Error en MySQL: ' + error.message}))
@@ -53,16 +52,18 @@ if (req.url === '/tasks' && req,method === 'GET') {
 if (req.url === '/tasks' && req.method === 'POST') {
     let body = '';
     
-//RECONSTRUIMOS EL FLUJO DE DATOS DEL CUERPO (STREAM DATA CHUNKS)
-req.on('end', async () => {
-    try{
-        const { title, description, author} = JSON.parse(body);
-        if(!title || !author) {
-            res.writeHead(400, { 'Content-Type': 'application/json'});
-            res.end(JSON.stringify({ status: 'error', message: 'Titulo y autor obligatorios'}));
-            return;
-        }
-    }
-}
-}
+    //RECONSTRUIMOS EL FLUJO DE DATOS DEL CUERPO (STREAM DATA CHUNKS)
+    req.on('data', chunk => {body += chunk.toString();});
+    
+    //Cuando el paquete se termina de armar, disparamos la insercion asincronica
+    req.on('end', async () => {
+        try{
+            const { title, description, author} = JSON.parse(body);
+            
+            if(!title || !author) {
+                res.writeHead(400, { 'Content-Type': 'application/json'});
+                res.end(JSON.stringify({ status: 'error', message: 'Titulo y autor obligatorios'}));
+                return;
+            }
 
+            // Consulta SQL con marcadoress de posicion
