@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List Vanilla JS</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <div class="container">
+        <header style=" display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #ccc; padding-bottom: 10px; margin-bottom: 20px;">
+        <div>
+            <h1>panel de tareas (Vanilla JS)></h1>
+            <p> conectada como: <strong id="currentUser" style="color: #2563eb;"></strong></p>
+        </div>
+        <button id="logoutButton" style="width: auto; "background-color: #ef4444;padding: 8px 15px; font-size: 0.85rem, color: white; border: none; border-radius: 4px; cursor: pointer">
+            Cerrar Sesion
+        </button>;
+        </header>
+
+        <form id="taskform">
+            <input type="text" id="taskTitle" placeholder="¿Que necesitas hacer?" required>
+            <textarea id="taskDescription" placeholder="Descripcion (Opcional)..." rows="2" ></textarea>
+            <button type="submit">Agregar Tarea</button>
+        </form> 
+
+        <main>
+            <h2>Tus tareas</h2>
+            <div id="ttasksContainer"></div>
+        </main>
+    </div>
+
+    <div id="custmodal" class="modal-overlay">
+        <div class="modal-box">
+            <h3 id=""modalTitle">Mensaje del sistema</h3>
+            <p id="modalMessage">Aqui va el texto aplicativo</p>
+            <div class="modal-buttons">
+                <button id="modalCancelBtn" class="btn-secondary">Cancelar</button>
+                <button id="modalConfirmBtn" class="btn-primary">Aceptar</button>
+            </div>
+        </div>
+    </div>
+
+    <div id=""loginModal" class="modal-overlay">
+        <div class="modal-box">
+            <h3>Identificacion de Autor</h3>
+            <p>Por favor, Ingresa tu nombre para comenzar a gestionar tus tareas: </p>
+            <form id="loginForm" style="box-shadow: none; padding: 0; margn: 0; display :flex; flex-direction: column; gap: 10px;">
+                <input type="text" id= "loginInput" placeholder="Ej. dhaniel, Ana" required>
+                <div> class= "modal-buttons"> 
+                <button type="submit" class=""btn-primary">Ingresar al panel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
