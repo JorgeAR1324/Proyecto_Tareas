@@ -33,7 +33,9 @@ button {
     border: none;
     cursor: pointer;
 }
-button:hover {background-color: #1d4ed8;}
+button:hover {
+    background-color: #1d4ed8;
+}
 .task-card{
     background: white;
     padding: 15px;
@@ -90,7 +92,7 @@ button:hover {background-color: #1d4ed8;}
 
 .modal-box h3 {
     margin-top: 0;
-    color: 1e293b;
+    color: #1e293b;
 }
 
 .modal-box p {

@@ -7,7 +7,7 @@ const mysql = require('mysql2/promise');
 //Creamos un 'Pool' de conexiones directas a la base de datos de real
 const pool = mysql.createPool({
     host: 'localhost',  // cambiar por 'db' si corre dentro de la red interna de Docker
-    user: 'jorge',
+    user: 'root',
     password: 'root',
     database: 'todo_db',
     waitForConnections: true,
@@ -36,7 +36,7 @@ if (req.url === '/tasks' && req.method === 'GET') {
         //Ejecutamos una consulta SQL directa usando interpolacion controlada del driver
         const[rows] = await pool.query('SELECT * FROM tasks');
 
-        res.writeHead(200,{'content-Type': 'applcation/json'});
+        res.writeHead(200,{'content-Type': 'application/json'});
         res.end(JSON.stringify({
             status: 'success',
             data: { tasks: rows}
@@ -113,7 +113,7 @@ if (req.url.startsWith('/tasks/') && req.method === 'PUT') {
             //2. Regla de negocio: Validar propiedad del author
             if(rows[0].author !== author) {
                 res.writeHead(403, { 'Content-Type': 'application/json' });
-                res.end(JSON.stringify({ status: 'error', message: 'No autroizado, la tarea es de ${rows[0].author}' }));
+                res.end(JSON.stringify({ status: 'error', message: `No autroizado, la tarea es de ${rows[0].author}` }));
                 return;
             }
 
@@ -125,7 +125,7 @@ if (req.url.startsWith('/tasks/') && req.method === 'PUT') {
             res.end(JSON.stringify({ status: 'success', data: null }));
         } catch (error) {
             res.writeHead(500, { 'Content-Type': 'application/json' });
-            res.end(JSON.stringify({ status: 'error', message: 'Erro en MySQL:' + error.message }));
+            res.end(JSON.stringify({ status: 'error', message: 'Error en MySQL:' + error.message }));
         }
     });
     return;
@@ -144,7 +144,7 @@ if (req.url.startsWith('/tasks/') && req.method === 'DELETE') {
         try {
             const { author } = JSON.parse(body);
 
-            // Paso A: Consultar a MySQL si la tarea existe y quieen es el dueño
+            // Paso A: Consultar a MySQL si la tarea existe y quien es el dueño
             const [rows] = await pool.query('SELECT author FROM tasks WHERE id = ?', [taskId]);
 
             if (rows.length === 0) {
@@ -155,10 +155,10 @@ if (req.url.startsWith('/tasks/') && req.method === 'DELETE') {
 
             const task = rows [0];
 
-            //Logica de proteccion: comparamos el auor de JSON con el autor de la fila de MySQL
+            //Logica de proteccion: comparamos el autor de JSON con el autor de la fila de MySQL
             if (task.author !== author) {
                 res.writeHead(403, { 'Content-Type': 'application/json' });
-                res.end(JSON.stringify({ status: 'error', message: 'No autorizado, la tarea es de ${task.author}' }));
+                res.end(JSON.stringify({ status: 'error', message: `No autorizado, la tarea es de ${task.author}` }));
                 return;
             }
 
