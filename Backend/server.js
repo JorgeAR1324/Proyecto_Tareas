@@ -7,7 +7,7 @@ const mysql = require('mysql2/promise');
 //Creamos un 'Pool' de conexiones directas a la base de datos de real
 const pool = mysql.createPool({
     host: 'localhost',  // cambiar por 'db' si corre dentro de la red interna de Docker
-    user: 'root',
+    user: 'jorge',
     password: 'root',
     database: 'todo_db',
     waitForConnections: true,
