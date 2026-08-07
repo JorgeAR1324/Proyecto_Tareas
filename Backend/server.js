@@ -147,13 +147,13 @@ if (req.url.startsWith('/tasks/') && req.method === 'DELETE') {
             // Paso A: Consultar a MySQL si la tarea existe y quieen es el dueño
             const [rows] = await pool.query('SELECT author FROM tasks WHERE id = ?', [taskId]);
 
-            if (rwss.length === 0) {
+            if (rows.length === 0) {
                 res.writeHead(404, { 'Content-Type': 'application/json' });
                 res.end(JSON.stringify({ status: 'error', message: 'La tarea no existe en la BD' }));
                 return;
             }
 
-            const task = rws [0];
+            const task = rows [0];
 
             //Logica de proteccion: comparamos el auor de JSON con el autor de la fila de MySQL
             if (task.author !== author) {
